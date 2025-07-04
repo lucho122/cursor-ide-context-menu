@@ -1,0 +1,12 @@
+# Ignora la carpeta de salida del compilador de Inno Setup
+Output/
+
+# Archivos temporales comunes
+*.tmp
+*.log
+
+# Evita backups de Inno Setup
+*.bak
+
+# (opcional) evitar binarios ejecutables por accidente
+*.exe

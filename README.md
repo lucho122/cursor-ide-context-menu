@@ -25,4 +25,11 @@ Cursor IDE, al ser un fork de VS Code, no incluye su propio menú contextual en 
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/tuusuario/cursor-ide-context-menu.git
+   git clone https://github.com/lucho122/cursor-ide-context-menu.git
+
+
+⚠️ Nota: Después de instalar, es posible que necesites reiniciar el Explorador de Windows
+para que aparezca la nueva entrada del menú contextual. Para hacerlo rápidamente:
+1. Pulsa Ctrl + Shift + Esc
+2. Busca "Explorador de Windows"
+3. Haz clic derecho → Reiniciar

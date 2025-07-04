@@ -1,10 +1,10 @@
-; CursorIDE_ContextMenu.iss
-; Instalador para añadir menú contextual de Cursor IDE con soporte multilenguaje
-; Compatible Windows 10 y 11
+; CursorIDE-ContextMenuSetup.iss
+; Instalador de menú contextual para Cursor IDE con opción de buscar ejecutable manualmente
+; Compatible con Windows 10 y 11
 
 [Setup]
 AppName=Cursor IDE Context Menu
-AppVersion=1.0
+AppVersion=1.1
 DefaultDirName={autopf}\Cursor IDE Context
 DefaultGroupName=Cursor IDE Context Menu
 DisableProgramGroupPage=yes
@@ -22,7 +22,7 @@ function FindCursorExe(): String;
 var
   found: String;
 begin
-  { Intenta buscar en la ubicación típica del instalador de Cursor }
+  { Buscar en AppData }
   found := ExpandConstant('{userappdata}\Local\Programs\cursor\Cursor.exe');
   if FileExists(found) then
   begin
@@ -30,7 +30,7 @@ begin
     exit;
   end;
 
-  { Si no lo encuentra, intenta buscar en la variable de entorno PATH (opcional) }
+  { Buscar en Program Files }
   found := ExpandConstant('{pf}\Cursor\Cursor.exe');
   if FileExists(found) then
   begin
@@ -38,7 +38,14 @@ begin
     exit;
   end;
 
-  Result := '';  // no encontrado
+  { Preguntar al usuario si no se encontró nada }
+  if GetOpenFileName('No se encontró Cursor.exe en las ubicaciones habituales. Selecciónalo manualmente:', found, '', 'Archivos ejecutables|*.exe', 'Cursor.exe') then
+  begin
+    Result := found;
+    exit;
+  end;
+
+  Result := '';
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
@@ -50,7 +57,7 @@ begin
     cursorPath := FindCursorExe();
     if cursorPath = '' then
     begin
-      MsgBox('No se encontró Cursor.exe en las ubicaciones habituales. Por favor instala Cursor antes de usar este menú contextual.', mbError, MB_OK);
+      MsgBox('No se encontró Cursor.exe. La instalación no puede continuar.', mbError, MB_OK);
       exit;
     end;
 
